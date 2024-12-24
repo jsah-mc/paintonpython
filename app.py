@@ -57,6 +57,6 @@ while run:
     if event.type == pygame.MOUSEBUTTONDOWN:
       for i in range(len(brushes)):
         if brushes[i].collidepoint(event.pos):
-          print('Brush', i)
+          active_size = 20 - (i * 5)
   pygame.display.flip()
 pygame.quit()      
