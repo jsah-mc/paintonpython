@@ -1,38 +1,35 @@
-# Importing and initializing pygame
-import pygame
-pygame.init()
+from tkinter import *
 
-# Setting up the screen
-fps = 60
-width, height = 1280, 720
+# Variables
+current_x = 0
+current_y = 0
+def locate_xy(event):
+  global current_x, current_y
+  current_x, current_y = event.x, event.y
+  print(current_x, current_y) 
 
-screen = pygame.display.set_mode((width, height))
-pygame.display.set_caption("Paint Program")
+def addline(event):
+  global current_x, current_y
+  print(current_x, current_y, event.x, event.y)
+  canvas.create_line((current_x, current_y, event.x,event.y))
+  current_x, current_y = event.x, event.y
+# Create a window
+window = Tk()
+window.title("Paint made with the tkinter libary for Python")
+window.state("normal")
+window.geometry("1280x720")
+window.rowconfigure(0, weight=1)
+window.columnconfigure(0, weight=1)
+# Create a canvas
+canvas = Canvas(window)
+canvas.grid(row=0, column=0, sticky="nsew")
 
-def draw_menu():
-  pygame.draw.rect(screen, 'gray', (0, 0, width, 70))
-  pygame.draw.line(screen, 'black', (0, 70), (width, 70), 3)
-  xl_brush = pygame.draw.rect(screen, 'black', (10, 10, 60, 60))
-  pygame.draw.circle(screen, 'white',(40, 40), 20)
-  l_brush = pygame.draw.rect(screen, 'black', (80, 10, 60, 60))
-  pygame.draw.circle(screen, 'white',(110, 40), 15)
-  m_brush = pygame.draw.rect(screen, 'black', (150, 10, 60, 60))
-  pygame.draw.circle(screen, 'white',(180, 40), 10)
-  s_brush = pygame.draw.rect(screen, 'black', (220, 10, 60, 60))
-  pygame.draw.circle(screen, 'white',(250, 40), 5)
+canvas.bind('<Button-1>', locate_xy)
+canvas.bind('<B1-Motion>', addline)
 
-
-
-# Main loop
-run = True
-while run :
-    screen.fill((255, 255, 255))
-
-    draw_menu()
-    for event in pygame.event.get():
-        if event.type == pygame.QUIT:
-            run = False
-
-    pygame.display.flip()
-    # Updating the display
-    pygame.display.update()
+#Colors!!
+canvas.create_rectangle((10, 10, 30, 30), fill="black")
+canvas.create_rectangle((10, 80, 30, 30), fill="gray")
+#canvas.create_line(20, 20, 80, 60)
+# Main Loop
+window.mainloop()
